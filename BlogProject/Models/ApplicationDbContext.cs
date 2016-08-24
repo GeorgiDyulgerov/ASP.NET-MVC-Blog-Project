@@ -17,5 +17,11 @@ namespace BlogProject.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<BlogProject.Models.Post> Posts { get; set; }
+
+        public System.Data.Entity.DbSet<BlogProject.Models.Comment> Comments { get; set; }
+
+        public System.Data.Entity.DbSet<BlogProject.Models.Tag> Tags { get; set; }
     }
 }
