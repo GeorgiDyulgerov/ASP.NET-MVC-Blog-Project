@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BlogProject.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BlogProject.Controllers
 {
@@ -50,6 +52,10 @@ namespace BlogProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                UserManager<ApplicationUser> UserManeger = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+                ApplicationUser user = UserManeger.FindById(this.User.Identity.GetUserId());
+                post.Author = user;
+
                 db.Posts.Add(post);
                 db.SaveChanges();
                 return RedirectToAction("Index");
