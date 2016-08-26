@@ -19,7 +19,9 @@ namespace BlogProject.Controllers
         // GET: Posts
         public ActionResult Index()
         {
-            return View(db.Posts.ToList());
+            var posts = db.Posts.Include(p => p.Author).ToList();
+
+            return View(posts);
         }
 
         // GET: Posts/Details/5
@@ -29,7 +31,9 @@ namespace BlogProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Post post = db.Posts.Find(id);
+            var posts = db.Posts.Include(p => p.Author).ToList();
+
+            Post post = posts.Find(p=>p.Id==id);
             if (post == null)
             {
                 return HttpNotFound();
@@ -55,6 +59,8 @@ namespace BlogProject.Controllers
                 UserManager<ApplicationUser> UserManeger = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
                 ApplicationUser user = UserManeger.FindById(this.User.Identity.GetUserId());
                 post.Author = user;
+
+                post.Date = DateTime.Now;
 
                 db.Posts.Add(post);
                 db.SaveChanges();

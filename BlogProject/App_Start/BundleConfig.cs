@@ -25,7 +25,18 @@ namespace BlogProject
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/css/font-awesome.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/summernote").Include(
+                        "~/Content/summernote/summernote.css"));
+
+            bundles.Add(new ScriptBundle("~/bundle/base").Include(
+                        "~/Scripts/jquery-1.10.2.js",
+                        "~/Scripts/bootstrap.js"));
+
+            bundles.Add(new ScriptBundle("~/bundle/summernote").Include(
+                        "~/Content/summernote/summernote.js"));
         }
     }
 }

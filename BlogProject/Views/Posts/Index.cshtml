@@ -18,6 +18,9 @@
             @Html.DisplayNameFor(model => model.Body)
         </th>
         <th>
+            Author
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
         <th>Actions</th>
@@ -28,16 +31,25 @@
         <td>
             @Html.DisplayFor(modelItem => item.Title)
         </td>
-        <td>
+        <td >
             @Html.DisplayFor(modelItem => item.Body)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Details", "Details", new {id = item.Id}) 
+            @if (User.Identity.IsAuthenticated)
+            {
+                @:|
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) 
+                @:|
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            }
+
         </td>
     </tr>
 }

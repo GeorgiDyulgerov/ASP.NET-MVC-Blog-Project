@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,7 +13,8 @@ namespace BlogProject.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         public ActionResult Index()
         {
-            var posts = db.Posts.OrderByDescending(post => post.Date).Take(3);
+
+            var posts = db.Posts.Include(p =>p.Author).OrderByDescending(post => post.Date).Take(3);
            
             return View(posts.ToList());
         }

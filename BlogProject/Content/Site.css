@@ -30,4 +30,32 @@ textarea {
 article {
     margin-top: 15px;
     float: right !important;
+    overflow-wrap: break-word;
+}
+
+td {
+    max-width: 200px;
+    overflow-wrap: break-word;
+}
+
+#post-details {
+    border: 2px solid gray;
+    padding: 20px;
+    width: 500px;
+    resize: both;
+    overflow: auto;
+    overflow-wrap: break-word;
+    border-radius: 8px;
+   
+}
+
+#post-delete {
+    border: 2px solid red;
+    padding: 20px;
+    width: 500px;
+    resize: both;
+    overflow: auto;
+    overflow-wrap: break-word;
+    border-radius: 8px;
+   
 }
