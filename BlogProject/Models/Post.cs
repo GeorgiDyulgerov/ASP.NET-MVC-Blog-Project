@@ -9,6 +9,14 @@ namespace BlogProject.Models
 {
     public class Post
     {
+
+        public Post()
+        {
+            this.Comments = new List<Comment>();
+            this.Tags = new List<Tag>();
+            
+        } 
+
         [Key]
         public int Id {get; set; }
 

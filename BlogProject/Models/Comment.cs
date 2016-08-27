@@ -22,5 +22,7 @@ namespace BlogProject.Models
         public ApplicationUser User { get; set; }
 
         public string Author { get; set; }
+
+        public int? PostId { get; set; }
     }
 }

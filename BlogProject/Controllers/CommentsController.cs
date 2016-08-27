@@ -6,7 +6,10 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
 using BlogProject.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BlogProject.Controllers
 {
@@ -38,6 +41,7 @@ namespace BlogProject.Controllers
         // GET: Comments/Create
         public ActionResult Create()
         {
+
             return View();
         }
 
@@ -46,13 +50,20 @@ namespace BlogProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Text,Date,Author")] Comment comment)
+        public ActionResult Create([Bind(Include = "Id,Text,Date,Author,PostId")] Comment comment)
         {
+            comment.Date = DateTime.Now;
+            UserManager<ApplicationUser> UserManeger = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+            ApplicationUser user = UserManeger.FindById(this.User.Identity.GetUserId());
+            comment.User = user;
+
+            var post = db.Posts.Find(comment.PostId);
             if (ModelState.IsValid)
             {
+                post.Comments.Add(comment);
                 db.Comments.Add(comment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Redirect("/Posts/Details/"+comment.PostId);
             }
 
             return View(comment);
