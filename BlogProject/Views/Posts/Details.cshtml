@@ -44,9 +44,11 @@
     </dl>
 
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Edit", "Edit", new {id = Model.Id}) |
         @Html.ActionLink("Back to List", "Index")
     </p>
+
+    <hr style="border: 1px solid gray"/>
 
     <dl class="dl-horizontal">
         <dt>
@@ -62,10 +64,22 @@
 
                 foreach (var comment in Model.Comments)
                 {
-                    @:afgkafkjahlahglahlgh
-                    <div class="about">Posted on <i>@comment.Date</i> by <i>@comment.User.FullName</i>
+                    <div class="jumbotron">
+                        <div class="comment-about">
+                            Posted on <i>@comment.Date</i> by <i>
+                                @if (comment.User == null)
+                                {
+                                    @comment.Author
+                                }
+                                else
+                                {
+                                    @comment.User.FullName
+                                }
+                            </i>
+                        </div>
+                        <hr style="border: 1px solid gray" />
+                        <div class="comment-body">@comment.Text</div>
                     </div>
-                    <div class="body">@comment.Text</div>
                 }
             }
             <p>

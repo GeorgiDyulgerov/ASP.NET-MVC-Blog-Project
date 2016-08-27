@@ -12,7 +12,7 @@ namespace BlogProject.Models
 
         public Post()
         {
-            this.Comments = new List<Comment>();
+            this.Comments = new List<Comment>() ;
             this.Tags = new List<Tag>();
             
         } 
@@ -32,8 +32,8 @@ namespace BlogProject.Models
 
         public ApplicationUser Author { get; set; }
 
-        public IList<Comment> Comments { get; set; }
+        public List<Comment> Comments { get; set; }
 
-        public IList<Tag> Tags { get; set; }
+        public List<Tag> Tags { get; set; }
     }
 }

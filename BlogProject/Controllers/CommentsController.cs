@@ -10,6 +10,7 @@ using System.Web.UI;
 using BlogProject.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using WebGrease.Css.Extensions;
 
 namespace BlogProject.Controllers
 {
@@ -61,6 +62,8 @@ namespace BlogProject.Controllers
             if (ModelState.IsValid)
             {
                 post.Comments.Add(comment);
+                post.Comments.ToSafeReadOnlyCollection();
+                db.Entry(post).State = EntityState.Modified;
                 db.Comments.Add(comment);
                 db.SaveChanges();
                 return Redirect("/Posts/Details/"+comment.PostId);

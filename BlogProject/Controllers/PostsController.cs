@@ -32,12 +32,16 @@ namespace BlogProject.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var posts = db.Posts.Include(p => p.Author).ToList();
-
+            List<Comment> comments = db.Comments.Where(comment => comment.PostId == id).ToList();
+            
             Post post = posts.Find(p=>p.Id==id);
             if (post == null)
             {
                 return HttpNotFound();
             }
+
+            post.Comments = comments;
+
             return View(post);
         }
 
