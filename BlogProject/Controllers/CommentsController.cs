@@ -19,6 +19,7 @@ namespace BlogProject.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Comments
+        [Authorize(Roles = "Administrators")]
         public ActionResult Index()
         {
             return View(db.Comments.ToList());
@@ -73,6 +74,7 @@ namespace BlogProject.Controllers
         }
 
         // GET: Comments/Edit/5
+        [Authorize(Roles = "Administrators")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -91,6 +93,7 @@ namespace BlogProject.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Administrators")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Text,Date,Author")] Comment comment)
         {
@@ -104,6 +107,7 @@ namespace BlogProject.Controllers
         }
 
         // GET: Comments/Delete/5
+        [Authorize(Roles = "Administrators")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -119,6 +123,7 @@ namespace BlogProject.Controllers
         }
 
         // POST: Comments/Delete/5
+        [Authorize(Roles = "Administrators")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
