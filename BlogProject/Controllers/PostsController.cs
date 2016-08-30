@@ -33,6 +33,8 @@ namespace BlogProject.Controllers
             }
             var posts = db.Posts.Include(p => p.Author).ToList();
             List<Comment> comments = db.Comments.Where(comment => comment.PostId == id).ToList();
+            List<Tag> tags = db.Tags.Where(t => t.PostId == id).ToList();
+
             
             Post post = posts.Find(p=>p.Id==id);
             if (post == null)
@@ -41,6 +43,7 @@ namespace BlogProject.Controllers
             }
 
             post.Comments = comments;
+            post.Tags = tags;
 
             return View(post);
         }

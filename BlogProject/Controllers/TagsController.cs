@@ -15,12 +15,14 @@ namespace BlogProject.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Tags
+        [Authorize(Roles = "Administrators")]
         public ActionResult Index()
         {
             return View(db.Tags.ToList());
         }
 
         // GET: Tags/Details/5
+        [Authorize(Roles = "Administrators")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,6 +38,7 @@ namespace BlogProject.Controllers
         }
 
         // GET: Tags/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -46,19 +49,24 @@ namespace BlogProject.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Tag tag)
+        [Authorize]
+        public ActionResult Create([Bind(Include = "Id,Name,PostId")] Tag tag)
         {
+
+            var post = db.Posts.Find(tag.PostId);
             if (ModelState.IsValid)
             {
+                post.Tags.Add(tag);
                 db.Tags.Add(tag);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Redirect("/Posts/Details/" + tag.PostId);
             }
 
             return View(tag);
         }
 
         // GET: Tags/Edit/5
+        [Authorize(Roles = "Administrators")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,6 +85,7 @@ namespace BlogProject.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize(Roles = "Administrators")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Name")] Tag tag)
         {
@@ -90,6 +99,7 @@ namespace BlogProject.Controllers
         }
 
         // GET: Tags/Delete/5
+        [Authorize(Roles = "Administrators")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -105,6 +115,7 @@ namespace BlogProject.Controllers
         }
 
         // POST: Tags/Delete/5
+        [Authorize(Roles = "Administrators")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

@@ -1,5 +1,5 @@
 ﻿@using BlogProject.Models
-@model List<Post>
+@model HomePageModel
 @{
     ViewBag.Title = "Home Page";
 }
@@ -8,21 +8,25 @@
         <div class="tags-menu ">
             <strong>Popular Tags</strong>
             <ol>
+                @foreach (var tag in Model.TagCount.Keys)
+                {
+                    <li>@tag</li>
+                }
                 <li>New</li>
                 <li>.NET</li>
                 <li>something else</li>
                 <li>something else</li>
-                <li>something else</li>
+                
             </ol>
 
-            <a href="#" class="btn btn-info">Show All</a>
+            <a href="/Tags" class="btn btn-info">Show All</a>
         </div>
         <hr style="border:1px gainsboro solid "/>
         <div class="tags-menu ">
             
             <strong>Recent Posts</strong>
             <ol>
-                @foreach (var post in Model)
+                @foreach (var post in Model.Post)
                 {
                     <li><a href="/Posts/Details/@post.Id">@post.Title</a></li>
                 }
@@ -34,11 +38,12 @@
     </div>
     <section > 
         
-            @foreach(var post in Model.Take(3))
+            @foreach(var post in Model.Post.Take(3))
             { 
         <article class="jumbotron post row col-md-8">
             <h2><a href="/Posts/Details/@post.Id">@post.Title</a></h2>
             <div class="about">Posted on <i>@post.Date</i> by <i>@post.Author.FullName</i></div>
+            <hr style="border:1px gainsboro solid " />
             <div class="body">@post.Body</div>
         </article>
             }

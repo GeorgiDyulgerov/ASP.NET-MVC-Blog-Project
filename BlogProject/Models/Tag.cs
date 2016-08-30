@@ -18,5 +18,7 @@ namespace BlogProject.Models
 
         public int PostId { get; set; }
 
+        public ICollection<Post> Posts { get; set; }
+
     }
 }

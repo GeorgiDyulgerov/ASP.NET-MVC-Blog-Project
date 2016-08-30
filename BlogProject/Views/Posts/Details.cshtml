@@ -19,11 +19,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Body)
+            @Html.DisplayNameFor(model => model.Author)
         </dt>
 
         <dd>
-            <div id="post-details">@Model.Body</div>
+            @Html.DisplayFor(model => model.Author.FullName)
         </dd>
 
         <dt>
@@ -35,22 +35,43 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Author)
+            @Html.DisplayNameFor(model => model.Body)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Author.FullName)
+            <div id="post-details">@Model.Body</div>
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+
+        <dd>
+            (@Model.Tags.Count
+            tags)
+            @foreach (var tag in Model.Tags)
+            {
+                <span class="label label-default">@tag.Name</span>
+            }
+            @if (Model.Author.UserName == User.Identity.Name || User.IsInRole("Administrators"))
+            {
+                <a href="/tags/create/@Model.Id" class="btn btn-default">Add Tag</a>
+            }
+        </dd>
+
+
     </dl>
 
     <p>
-        @Html.ActionLink("Edit", "Edit", new {id = Model.Id}) |
+        @if (User.IsInRole("Administrators")) { 
+        @Html.ActionLink("Edit", "Edit", new {id = Model.Id}) @:|
+        }
         @Html.ActionLink("Back to List", "Index")
     </p>
 
     <hr style="border: 1px solid gray"/>
 
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal" id="comments">
         <dt>
             @Html.DisplayNameFor(model => model.Comments)
         </dt>
@@ -74,6 +95,9 @@
                                 else
                                 {
                                     @comment.User.FullName
+                                    @:(
+                                    @comment.User.UserName
+                                    @:)
                                 }
                             </i>
                         </div>

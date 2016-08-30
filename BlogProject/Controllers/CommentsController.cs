@@ -22,7 +22,9 @@ namespace BlogProject.Controllers
         [Authorize(Roles = "Administrators")]
         public ActionResult Index()
         {
-            return View(db.Comments.ToList());
+            var comments = db.Comments.Include(c => c.User).ToList();
+
+            return View(comments);
         }
 
         // GET: Comments/Details/5
@@ -63,8 +65,6 @@ namespace BlogProject.Controllers
             if (ModelState.IsValid)
             {
                 post.Comments.Add(comment);
-                post.Comments.ToSafeReadOnlyCollection();
-                db.Entry(post).State = EntityState.Modified;
                 db.Comments.Add(comment);
                 db.SaveChanges();
                 return Redirect("/Posts/Details/"+comment.PostId);

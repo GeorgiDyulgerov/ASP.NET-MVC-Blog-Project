@@ -32,8 +32,8 @@ namespace BlogProject.Models
 
         public ApplicationUser Author { get; set; }
 
-        public List<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments { get; set; }
 
-        public List<Tag> Tags { get; set; }
+        public ICollection<Tag> Tags { get; set; }
     }
 }
