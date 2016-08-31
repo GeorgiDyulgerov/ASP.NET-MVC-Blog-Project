@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using BlogProject.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using BlogProject.Extensions;
 
 namespace BlogProject.Controllers
 {
@@ -73,6 +74,7 @@ namespace BlogProject.Controllers
 
                 db.Posts.Add(post);
                 db.SaveChanges();
+                this.AddNotification("Post Created",NotificationType.SUCCESS);
                 return RedirectToAction("Index");
             }
 
@@ -107,6 +109,7 @@ namespace BlogProject.Controllers
             {
                 db.Entry(post).State = EntityState.Modified;
                 db.SaveChanges();
+                this.AddNotification("Post Edited", NotificationType.SUCCESS);
                 return RedirectToAction("Index");
             }
             return View(post);
@@ -137,6 +140,7 @@ namespace BlogProject.Controllers
             Post post = db.Posts.Find(id);
             db.Posts.Remove(post);
             db.SaveChanges();
+            this.AddNotification("Post Deleted", NotificationType.INFO);
             return RedirectToAction("Index");
         }
 

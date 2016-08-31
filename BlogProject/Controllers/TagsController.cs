@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BlogProject.Extensions;
 using BlogProject.Models;
 
 namespace BlogProject.Controllers
@@ -59,6 +60,7 @@ namespace BlogProject.Controllers
                 post.Tags.Add(tag);
                 db.Tags.Add(tag);
                 db.SaveChanges();
+                this.AddNotification("Tag Created", NotificationType.SUCCESS);
                 return Redirect("/Posts/Details/" + tag.PostId);
             }
 
@@ -93,6 +95,7 @@ namespace BlogProject.Controllers
             {
                 db.Entry(tag).State = EntityState.Modified;
                 db.SaveChanges();
+                this.AddNotification("Tag Edited", NotificationType.SUCCESS);
                 return RedirectToAction("Index");
             }
             return View(tag);
@@ -123,6 +126,7 @@ namespace BlogProject.Controllers
             Tag tag = db.Tags.Find(id);
             db.Tags.Remove(tag);
             db.SaveChanges();
+            this.AddNotification("Tag Deleted", NotificationType.INFO);
             return RedirectToAction("Index");
         }
 

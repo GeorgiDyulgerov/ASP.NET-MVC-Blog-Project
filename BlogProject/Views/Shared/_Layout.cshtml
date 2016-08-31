@@ -41,7 +41,9 @@
         </div>
     </div>
 <div class="container body-content">
-        @RenderBody()
+    @Html.Partial("_Notifications")
+    @RenderBody()
+
     <hr/>
     <footer>
         <p>&copy; @DateTime.Now.Year - My ASP.NET Blog</p>

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
+using BlogProject.Extensions;
 using BlogProject.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -79,6 +80,7 @@ namespace BlogProject.Controllers
                 post.Comments.Add(comment);
                 db.Comments.Add(comment);
                 db.SaveChanges();
+                this.AddNotification("Comment Created", NotificationType.SUCCESS);
                 return Redirect("/Posts/Details/"+comment.PostId);
             }
 
@@ -113,6 +115,7 @@ namespace BlogProject.Controllers
             {
                 db.Entry(comment).State = EntityState.Modified;
                 db.SaveChanges();
+                this.AddNotification("Comment Edited", NotificationType.SUCCESS);
                 return RedirectToAction("Index");
             }
             return View(comment);
@@ -143,6 +146,7 @@ namespace BlogProject.Controllers
             Comment comment = db.Comments.Find(id);
             db.Comments.Remove(comment);
             db.SaveChanges();
+            this.AddNotification("Comment Deleted", NotificationType.INFO);
             return RedirectToAction("Index");
         }
 
