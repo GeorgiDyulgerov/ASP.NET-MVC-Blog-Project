@@ -22,9 +22,21 @@ namespace BlogProject.Controllers
         [Authorize(Roles = "Administrators")]
         public ActionResult Index()
         {
+             List<CommentIndexPageModel> models = new List<CommentIndexPageModel>();
             var comments = db.Comments.Include(c => c.User).ToList();
+            var posts = db.Posts.ToList();
+            foreach (var comment in comments)
+            {
+                CommentIndexPageModel  model = new CommentIndexPageModel();
+                model.Comments = comment;
+                model.Posts = posts.Find(p=>p.Id==comment.PostId);
+                models.Add(model);
 
-            return View(comments);
+            }
+            
+            
+            
+            return View(models);
         }
 
         // GET: Comments/Details/5

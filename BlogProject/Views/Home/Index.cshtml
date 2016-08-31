@@ -5,7 +5,7 @@
 }
 <div class="main row">
     <div class="side-menu jumbotron col-md-4">
-        <div class="tags-menu ">
+        @*<div class="tags-menu ">
             <strong>Popular Tags</strong>
             <ol>
                 @foreach (var tag in Model.TagCount.Keys)
@@ -21,8 +21,8 @@
 
             <a href="/Tags" class="btn btn-info">Show All</a>
         </div>
-        <hr style="border:1px gainsboro solid "/>
-        <div class="tags-menu ">
+        <hr style="border:1px gainsboro solid "/>*@
+        <div class="post-menu ">
             
             <strong>Recent Posts</strong>
             <ol>
@@ -44,7 +44,7 @@
             <h2><a href="/Posts/Details/@post.Id">@post.Title</a></h2>
             <div class="about">Posted on <i>@post.Date</i> by <i>@post.Author.FullName</i></div>
             <hr style="border:1px gainsboro solid " />
-            <div class="body">@post.Body</div>
+            <div class="body">@Html.Raw(post.Body)</div>
         </article>
             }
 

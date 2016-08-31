@@ -40,9 +40,10 @@ td {
 }
 
 #post-details {
+    background: whitesmoke;
     border: 2px solid gray;
     padding: 20px;
-    width: 500px;
+    width: 800px;
     resize: both;
     overflow: auto;
     overflow-wrap: break-word;
@@ -54,10 +55,15 @@ td {
 #post-delete {
     border: 2px solid red;
     padding: 20px;
-    width: 500px;
+    width: 800px;
     resize: both;
     overflow: auto;
     overflow-wrap: break-word;
     border-radius: 8px;
    
+}
+
+.text-area-create {
+    max-width: 800px;
+    height: 400px;
 }
