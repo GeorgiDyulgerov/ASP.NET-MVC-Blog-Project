@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using BlogProject.Extensions;
 using BlogProject.Models;
+using PagedList;
 
 namespace BlogProject.Controllers
 {

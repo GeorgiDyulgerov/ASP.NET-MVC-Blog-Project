@@ -7,9 +7,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BlogProject.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BlogProject.Controllers
 {
+    
     [Authorize]
     public class ManageController : Controller
     {
@@ -54,6 +56,7 @@ namespace BlogProject.Controllers
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."

@@ -11,6 +11,7 @@ using BlogProject.Extensions;
 using BlogProject.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PagedList;
 using WebGrease.Css.Extensions;
 
 namespace BlogProject.Controllers
@@ -23,22 +24,23 @@ namespace BlogProject.Controllers
         [Authorize(Roles = "Administrators")]
         public ActionResult Index()
         {
-             List<CommentIndexPageModel> models = new List<CommentIndexPageModel>();
+            List<CommentIndexPageModel> models = new List<CommentIndexPageModel>();
             var comments = db.Comments.Include(c => c.User).ToList();
             var posts = db.Posts.ToList();
             foreach (var comment in comments)
             {
-                CommentIndexPageModel  model = new CommentIndexPageModel();
+                CommentIndexPageModel model = new CommentIndexPageModel();
                 model.Comments = comment;
-                model.Posts = posts.Find(p=>p.Id==comment.PostId);
+                model.Posts = posts.Find(p => p.Id == comment.PostId);
                 models.Add(model);
 
             }
-            
-            
-            
+
+
+
             return View(models);
         }
+
 
         // GET: Comments/Details/5
         public ActionResult Details(int? id)

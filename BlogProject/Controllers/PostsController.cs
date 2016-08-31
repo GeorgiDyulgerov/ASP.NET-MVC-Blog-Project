@@ -10,6 +10,7 @@ using BlogProject.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using BlogProject.Extensions;
+using PagedList;
 
 namespace BlogProject.Controllers
 {
@@ -18,13 +19,34 @@ namespace BlogProject.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Posts
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    var posts = db.Posts.Include(p => p.Author).ToList();
+
+        //    return View(posts);
+        //}
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var posts = db.Posts.Include(p => p.Author).ToList();
 
-            return View(posts);
-        }
+            ViewBag.CurrentSort = sortOrder;
 
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(posts.ToPagedList(pageNumber, pageSize));
+        }
         // GET: Posts/Details/5
         public ActionResult Details(int? id)
         {
@@ -36,8 +58,8 @@ namespace BlogProject.Controllers
             List<Comment> comments = db.Comments.Where(comment => comment.PostId == id).ToList();
             List<Tag> tags = db.Tags.Where(t => t.PostId == id).ToList();
 
-            
-            Post post = posts.Find(p=>p.Id==id);
+
+            Post post = posts.Find(p => p.Id == id);
             if (post == null)
             {
                 return HttpNotFound();
@@ -59,7 +81,7 @@ namespace BlogProject.Controllers
         // POST: Posts/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost,ValidateInput(false)]
+        [HttpPost, ValidateInput(false)]
         [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Title,Body,Date")] Post post)
@@ -74,7 +96,7 @@ namespace BlogProject.Controllers
 
                 db.Posts.Add(post);
                 db.SaveChanges();
-                this.AddNotification("Post Created",NotificationType.SUCCESS);
+                this.AddNotification("Post Created", NotificationType.SUCCESS);
                 return RedirectToAction("Index");
             }
 
@@ -100,7 +122,7 @@ namespace BlogProject.Controllers
         // POST: Posts/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost,ValidateInput(false)]
+        [HttpPost, ValidateInput(false)]
         [Authorize(Roles = "Administrators")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Title,Body,Date")] Post post)
